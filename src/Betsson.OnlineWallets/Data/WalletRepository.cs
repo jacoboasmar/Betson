@@ -9,6 +9,14 @@
 
     public void SaveWallet(Wallet wallet)
     {
-        _wallets.Add(wallet);
+        var existingWallet = GetWallet(wallet.Id);
+        if (existingWallet != null)
+        {
+            existingWallet.Balance = wallet.Balance;
+        }
+        else
+        {
+            _wallets.Add(wallet);
+        }
     }
 }

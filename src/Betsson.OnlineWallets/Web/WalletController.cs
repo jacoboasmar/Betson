@@ -14,26 +14,47 @@ public class WalletController : ControllerBase
     [HttpGet("{userId}")]
     public IActionResult GetWallet(int userId)
     {
-        var wallet = _walletService.GetWallet(userId);
-        if (wallet == null)
+        try
         {
-            return NotFound();
-        }
+            var wallet = _walletService.GetWallet(userId);
+            if (wallet == null)
+            {
+                return NotFound();
+            }
 
-        return Ok(wallet);
+            return Ok(wallet);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 
     [HttpPost("{userId}/deposit")]
     public IActionResult Deposit(int userId, [FromBody] decimal amount)
     {
-        _walletService.Deposit(userId, amount);
-        return Ok();
+        try
+        {
+            _walletService.Deposit(userId, amount);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 
     [HttpPost("{userId}/withdraw")]
     public IActionResult Withdraw(int userId, [FromBody] decimal amount)
     {
-        _walletService.Withdraw(userId, amount);
-        return Ok();
+        try
+        {
+            _walletService.Withdraw(userId, amount);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
     }
 }

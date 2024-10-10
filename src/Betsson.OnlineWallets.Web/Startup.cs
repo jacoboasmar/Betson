@@ -27,6 +27,7 @@ namespace Betsson.OnlineWallets.Web
                 services.AddTransient<IWalletRepository, WalletRepository>();
                 services.AddTransient<WalletService>();
                 services.AddControllers();
+                services.AddControllersWithViews();
             }
 
             public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
