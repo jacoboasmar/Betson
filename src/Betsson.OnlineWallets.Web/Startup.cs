@@ -4,6 +4,9 @@ using Betsson.OnlineWallets.Web.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Betsson.OnlineWallets.Web
 {
@@ -19,11 +22,22 @@ namespace Betsson.OnlineWallets.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IWalletRepository, WalletRepository>();
-            services.AddTransient<WalletService>();
-            services.AddControllers();
-            // Register automapper profiles
-            services.AddAutoMapper(typeof(Startup));
+            public void ConfigureServices(IServiceCollection services)
+            {
+                services.AddTransient<IWalletRepository, WalletRepository>();
+                services.AddTransient<WalletService>();
+                services.AddControllers();
+            }
+
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+            {
+                app.UseRouting();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+                // Register automapper profiles
+                services.AddAutoMapper(typeof(Startup));
 
             // Register online wallet service
             services.RegisterOnlineWalletService();
