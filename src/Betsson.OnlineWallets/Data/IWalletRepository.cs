@@ -1,5 +1,10 @@
-﻿public interface IWalletRepository
+﻿using System;
+using Betson.Models;
+
+namespace Betson.Repositories
 {
-    Wallet GetWallet(int userId);
-    void SaveWallet(Wallet wallet);
+    public interface IWalletRepository
+    {
+        Wallet GetWallet(int id);
+    }
 }

@@ -1,4 +1,8 @@
-namespace Betsson.OnlineWallets.Web
+using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace Betson
 {
     public class Program
     {
