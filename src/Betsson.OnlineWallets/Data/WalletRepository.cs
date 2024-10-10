@@ -1,20 +1,20 @@
-﻿public class WalletRepository : IWalletRepository
+﻿using Betson.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Betson.Repositories
 {
-    private readonly List<Wallet> _wallets = new List<Wallet>();
-
-    public Wallet GetWallet(int userId)
+    public class WalletRepository : IWalletRepository
     {
-        return _wallets.FirstOrDefault(w => w.Id == userId);
-    }
+        private readonly List<Wallet> _wallets = new List<Wallet>();
 
-    public void SaveWallet(Wallet wallet)
-    {
-        var existingWallet = GetWallet(wallet.Id);
-        if (existingWallet != null)
+        public Wallet GetWallet(int id)
         {
-            existingWallet.Balance = wallet.Balance;
+            return _wallets.FirstOrDefault(w => w.Id == id);
         }
-        else
+
+        public void SaveWallet(Wallet wallet)
         {
             _wallets.Add(wallet);
         }

@@ -1,43 +1,21 @@
-﻿public class WalletService
+﻿using System;
+using Betson.Models;
+using Betson.Repositories;
+
+namespace Betson.Services
 {
-    private readonly IWalletRepository _repository;
-
-    public WalletService(IWalletRepository repository)
+    public class WalletService
     {
-        _repository = repository;
-    }
+        private readonly IWalletRepository _repository;
 
-    public Wallet GetWallet(int userId)
-    {
-        return _repository.GetWallet(userId);
-    }
-
-    public void Deposit(int userId, decimal amount)
-    {
-        var wallet = GetWallet(userId);
-        if (wallet == null)
+        public WalletService(IWalletRepository repository)
         {
-            throw new Exception("Wallet not found");
+            _repository = repository;
         }
 
-        wallet.Balance += amount;
-        _repository.SaveWallet(wallet);
-    }
-
-    public void Withdraw(int userId, decimal amount)
-    {
-        var wallet = GetWallet(userId);
-        if (wallet == null)
+        public Wallet GetWallet(int id)
         {
-            throw new Exception("Wallet not found");
+            return _repository.GetWallet(id);
         }
-
-        if (wallet.Balance < amount)
-        {
-            throw new Exception("Insufficient balance");
-        }
-
-        wallet.Balance -= amount;
-        _repository.SaveWallet(wallet);
     }
 }

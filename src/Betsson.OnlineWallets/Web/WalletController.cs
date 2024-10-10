@@ -1,60 +1,31 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using Betson.Models;
+using Betson.Services;
+using System.Runtime.InteropServices;
 
-[ApiController]
-[Route("api/[controller]")]
-public class WalletController : ControllerBase
+namespace Betson.Controllers
 {
-    private readonly WalletService _walletService;
-
-    public WalletController(WalletService walletService)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class WalletController : ControllerBase
     {
-        _walletService = walletService;
-    }
+        private readonly WalletService _service;
 
-    [HttpGet("{userId}")]
-    public IActionResult GetWallet(int userId)
-    {
-        try
+        public WalletController(WalletService service)
         {
-            var wallet = _walletService.GetWallet(userId);
+            _service = service;
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetWallet(int id)
+        {
+            var wallet = _service.GetWallet(id);
             if (wallet == null)
             {
                 return NotFound();
             }
-
             return Ok(wallet);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-
-    [HttpPost("{userId}/deposit")]
-    public IActionResult Deposit(int userId, [FromBody] decimal amount)
-    {
-        try
-        {
-            _walletService.Deposit(userId, amount);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
-    }
-
-    [HttpPost("{userId}/withdraw")]
-    public IActionResult Withdraw(int userId, [FromBody] decimal amount)
-    {
-        try
-        {
-            _walletService.Withdraw(userId, amount);
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
         }
     }
 }
